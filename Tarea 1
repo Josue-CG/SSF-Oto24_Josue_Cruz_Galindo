@@ -1,0 +1,38 @@
+# EVALUACIÓN DEL COSENO
+
+import math
+import numpy as np
+import pandas as pd
+
+# Definir los valores de x
+valores_x = [0, 0.125, 0.25, 0.5, 0.75, 1, 100]
+
+# Calcular y(x) = cos(x) para cada valor
+
+valores_y = [np.cos(x) for x in valores_x]
+
+# Calcular cos(x) en serie de potencias
+
+valores_f = [(1 + x + (x**2) / math.factorial(2) + (x**3) / math.factorial(3)) for x in valores_x]
+
+# Función para calcular el error relativo
+def calcular_error_relativo(valores_f, valores_y):
+    errores_relativos = []
+    for real, aproximado in zip(valores_f, valores_y):
+        error = abs(real - aproximado) / abs(real)
+        errores_relativos.append(error)
+    return errores_relativos
+
+# Calcular errores relativos
+errores = calcular_error_relativo(valores_f, valores_y)
+
+# Crear un DataFrame para mostrar la tabla
+tabla = pd.DataFrame({
+    'x': valores_x,
+    'Coseno en serie': valores_f,
+    'Coseno': valores_y,
+    'Error': errores
+})
+
+# Mostrar la tabla
+print(tabla)

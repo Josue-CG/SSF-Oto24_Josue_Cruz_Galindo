@@ -1,3 +1,52 @@
+# a)_1 HORNER.PY
+
+# Método simple
+
+import math
+import numpy as np
+def poly_naive(A, x):
+    p = 0
+    for i, a in enumerate(A):
+        p += (x ** i) * a
+    return p
+print(poly_naive((2,4),1))
+
+-------------------------------------------------------------------
+
+# a)_2 HORNER.PY
+
+# Método iterativo
+
+import math
+import numpy as np
+def poly_iter(A, x):
+    p = 0
+    xn = 1
+    for a in A:
+        p += xn * a
+        xn *= x
+    return p
+print(poly_naive((2,4),1))
+
+-------------------------------------------------------------------
+
+# a)_3 HORNER.PY
+
+# Regla de Horner
+
+import math
+import numpy as np
+
+def poly_horner(A, x):
+    p = A[-1]
+    i = len(A) - 2
+    while i >= 0:
+        p = p * x + A[i]
+        i -= 1
+    return p
+print(poly_naive((2,4),1))
+
+#En los tres casos sólo arroja números en vez de ecuaciones
 
 -------------------------------------------------------------------
 # b) EVALUACIÓN DEL COSENO

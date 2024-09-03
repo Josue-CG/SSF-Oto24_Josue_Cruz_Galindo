@@ -1,0 +1,157 @@
+#E. 1. - A) MÉTODO DEL TRAPECIO
+
+import numpy as np
+import pandas as pd
+
+# Definimos la función a integrar
+def f(x):
+    return (1 / np.sqrt(2 * np.pi)) * np.exp(- (x ** 2) / 2) # Indent this line to be part of the function body
+
+# Método del trapecio
+def trapezoidal_integration(func, a, b, n):
+    h = (b - a) / n
+    integral = 0.5 * (func(a) + func(b)) # Primer y último término
+    for i in range(1, n):
+        integral += func(a + i * h)
+    integral *= h
+    return integral
+
+# Intervalo de integración
+a = -1
+b = 1
+
+# Almacenamos los resultados en un diccionario
+results = {}
+
+# Calculamos la integral para n particiones de 1 a 15
+for n in range(1, 16):
+    integral_value = trapezoidal_integration(f, a, b, n)
+    results[n] = integral_value
+
+# Convertimos el diccionario a un DataFrame para mostrar como tabla
+results_df = pd.DataFrame(list(results.items()), columns=['Particiones (n)', 'Valor de la Integral'])
+print(results_df)
+
+-----------------------------------------------------------------
+
+#E. 1 - B) MÉTODO DE SIMPSON
+
+import numpy as np
+import pandas as pd
+
+# Definimos la función
+def f(x):
+    return (1 / np.sqrt(2 * np.pi)) * np.exp(- (x ** 2) / 2) # Indent this line to be part of the function body
+
+# Método de Simpson
+def simpson_integral(func, a, b, n):
+    if n % 2 == 1: # Asegurar que n sea par
+        n += 1
+    h = (b - a) / n
+    integral = func(a) + func(b)
+
+    for i in range(1, n, 2):
+        integral += 4 * func(a + i * h)
+    for i in range(2, n-1, 2):
+        integral += 2 * func(a + i * h)
+
+    integral *= h / 3
+    return integral
+
+# Intervalo de integración
+a = -1
+b = 1
+
+# Lista de valores de particiones
+partitions = list(range(2, 32, 2))
+
+# Crear una lista para almacenar los resultados
+results_list = []
+
+# Calcular la integral para cada número de particiones
+for n in partitions:
+    integral_value = simpson_integral(f, a, b, n)
+    results_list.append({'Particiones': n, 'Integral': integral_value}) # Append results to list
+
+# Crear un DataFrame a partir de la lista de resultados
+results = pd.DataFrame(results_list)
+
+# Mostrar la tabla de resultados
+print(results)
+
+-----------------------------------------------------------------
+
+#E. 1. - C) MÉTODO DE DE GAUSS-LEGENDRE
+
+import numpy as np
+import pandas as pd
+from scipy.special import roots_legendre
+
+# Definir la función a integrar
+def f(x):
+    return (1 / np.sqrt(2 * np.pi)) * np.exp(-x**2 / 2) # Indent this line
+
+# Función para realizar la integración usando Gauss-Legendre
+def gauss_legendre_integration(func, a, b, n):
+    # Obtener los puntos y pesos de Gauss-Legendre
+    points, weights = roots_legendre(n)
+    # Transformar los puntos al intervalo [a, b]
+    transformed_points = 0.5 * (b - a) * points + 0.5 * (a + b)
+    # Calcular la integral
+    integral = 0.5 * (b - a) * np.sum(weights * func(transformed_points))
+    return integral
+
+# Definir los límites de integración
+a = -1
+b = 1
+
+# Crear una tabla para almacenar los resultados
+results = []
+
+# Realizar la integración para 1 a 15 particiones
+for n in range(1, 16):
+    integral_value = gauss_legendre_integration(f, a, b, n)
+    results.append((n, integral_value))
+
+# Crear un DataFrame para mostrar los resultados
+results_df = pd.DataFrame(results, columns=['Particiones', 'Valor de la Integral'])
+
+# Mostrar la tabla de resultados
+print(results_df)
+
+-----------------------------------------------------------------
+
+# Listas de datos
+trapecio = [0.483941, 0.640913, 0.664491, 0.672522, 0.676202, 0.678192, 0.679388, 0.680164, 0.680695, 0.681074, 0.681355, 0.681568, 0.681734, 0.681866, 0.6819]
+simpson = [0.693237, 0.683058, 0.682759, 0.682711, 0.682698, 0.682694, 0.682692, 0.682691, 0.682690, 0.682690, 0.682690, 0.682690, 0.682690, 0.682690, 0.682690]
+gauss_legendre = [0.797885, 0.675395, 0.682997, 0.682680, 0.682690, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689]
+
+# Crear un DataFrame
+data = {
+'Trapecio': trapecio,
+'Simpson': simpson,
+'Gauss-Legendre': gauss_legendre
+}
+
+df = pd.DataFrame(data)
+
+# Mostrar la tabla
+print(df)
+
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+-----------------------------------------------------------------

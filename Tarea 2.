@@ -121,7 +121,8 @@ print(results_df)
 
 -----------------------------------------------------------------
 
-# Listas de datos
+#E. 1. - D) COMPARACIÓN
+
 trapecio = [0.483941, 0.640913, 0.664491, 0.672522, 0.676202, 0.678192, 0.679388, 0.680164, 0.680695, 0.681074, 0.681355, 0.681568, 0.681734, 0.681866, 0.6819]
 simpson = [0.693237, 0.683058, 0.682759, 0.682711, 0.682698, 0.682694, 0.682692, 0.682691, 0.682690, 0.682690, 0.682690, 0.682690, 0.682690, 0.682690, 0.682690]
 gauss_legendre = [0.797885, 0.675395, 0.682997, 0.682680, 0.682690, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689, 0.682689]
@@ -264,7 +265,8 @@ print(df_results)
 
 -----------------------------------------------------------------
 
-# Listas de datos
+#E. 2. - D) COMPARACIÓN
+
 trapecio = [0.42517, 2.275876, 2.629171, 2.743848, 2.794433, 2.821344, 2.837432, 2.847832, 2.854947, 2.860030, 2.863786, 2.86664, 2.868863, 2.870624, 2.872045]
 simpson = [2.892777, 2.892777, 2.899839, 2.899839, 2.885402, 2.885402, 2.882494, 2.882494, 2.881895, 2.881895, 2.881741, 2.881741, 2.881688, 2.881688, 2.881666]
 gauss_legendre = [4.126581, 2.890648, 2.863174, 2.881695, 2.882226, 2.881643, 2.881618, 2.881637, 2.881638, 2.881637, 2.881637, 2.881637, 2.881637, 2.881637, 2.881637]
@@ -282,15 +284,149 @@ df = pd.DataFrame(data)
 print(df)
 
 -----------------------------------------------------------------
+
+#E. 3. - A) MÉTODO DEL TRAPECIO (LÍMITE de -2 a 0)
+
+import numpy as np
+import pandas as pd
+
+# Definimos la función a integrar
+def f(x):
+    return (np.exp(x) * np.sin(x)) / (1 + x**2)
+
+# Método del trapecio
+def trapezoidal_rule(func, a, b, n):
+    h = (b - a) / n
+    integral = (func(a) + func(b)) / 2.0
+    for i in range(1, n):
+        integral += func(a + i * h)
+    integral *= h
+    return integral
+
+# Intervalo de integración
+a = -2
+b = 0
+
+# Número de iteraciones
+iterations = range(1, 16)
+results = []
+
+# Calculamos la integral para cada número de iteraciones
+for n in iterations:
+    integral_value = trapezoidal_rule(f, a, b, n)
+    results.append(integral_value)
+
+# Creamos un DataFrame para mostrar los resultados
+results_df = pd.DataFrame({'Iteraciones': iterations, 'Valor de la Integral': results})
+
+# Mostramos la tabla comparativa
+print(results_df)
+
 -----------------------------------------------------------------
+
+#E. 3. - B) MÉTODO DE SIMPSON (LÍMITE DE -2 a 0)
+
+import numpy as np
+import pandas as pd
+
+# Definimos la función a integrar
+def f(x):
+    return (np.exp(x) * np.sin(x)) / (1 + x**2)
+
+# Implementación del método de Simpson
+def simpson_integration(func, a, b, n):
+    if n % 2 == 1: # Simpson requiere un número par de subintervalos
+        n += 1
+
+    h = (b - a) / n
+    total = func(a) + func(b)
+
+    for i in range(1, n, 2): # Suma de los términos impares
+        total += 4 * func(a + i * h)
+    for i in range(2, n-1, 2): # Suma de los términos pares
+        total += 2 * func(a + i * h)
+
+    return (h / 3) * total
+
+# Valores de n para la tabla comparativa
+n_values = range(1, 16)
+results = []
+
+# Calcular la integral para cada n
+for n in n_values:
+    result = simpson_integration(f,-2, 0, n)
+    results.append(result)
+
+# Crear una tabla comparativa
+df = pd.DataFrame({
+    'Número de intervalos (n)': n_values,
+    'Resultado de la integral': results
+})
+
+# Mostrar la tabla
+print(df)
+
 -----------------------------------------------------------------
+
+#E. 3. - C) MÉTODO DE GAUSS-LEGENDRE (LÍMITE DE -2 a 0)
+
+import numpy as np
+import pandas as pd
+from scipy.special import roots_legendre
+
+# Definimos la función que queremos integrar
+def f(x):
+    return (np.exp(x) * np.sin(x)) / (1 + x**2) # Indent this line to be part of the function body
+
+# Método de integración de Gauss-Legendre
+def gauss_legendre_integration(func, a, b, n):
+    # Obtenemos las raíces y pesos de los polinomios de Legendre
+    roots, weights = roots_legendre(n)
+
+    # Cambiamos el intervalo de integración de [-1, 1] a [a, b]
+    transformed_roots = 0.5 * (b - a) * roots + 0.5 * (b + a)
+    transformed_weights = 0.5 * (b - a) * weights
+
+    # Calculamos la integral
+    integral = np.sum(transformed_weights * func(transformed_roots))
+    return integral
+
+# Intervalo de integración
+a = -2
+b = 0
+
+# Lista para almacenar los resultados
+results = []
+
+# Realizamos la integración para n=1 a n=15
+for n in range(1, 16):
+    integral_value = gauss_legendre_integration(f, a, b, n)
+    results.append((n, integral_value))
+
+# Creamos un DataFrame para mostrar los resultados
+df_results = pd.DataFrame(results, columns=['Número de puntos (n)', 'Valor de la integral'])
+print(df_results)
+
 -----------------------------------------------------------------
+
+#E. 3. - D) COMPARACIÓN
+
+trapecio = [-0.024612, -0.167086, -0.216222, -0.234099, -0.242247, -0.246627, -0.249253, -0.250951, -0.252113, -0.252943, -0.25355, -0.254023, -0.254386, -0.254673, -0.254905]
+simpson = [-0.214577, -0.214577, -0.256437, -0.256437, -0.256762, -0.256762, -0.256569, -0.25656, -0.256509, -0.256509, -0.256488, -0.256488, -0.256480, -0.256480, -0.256476]
+gauss_legendre = [-0.309560, -0.287262, -0.254131, -0.256139, -0.256524, -0.256472, -0.256470, -0.256471, -0.256471, -0.256471, -0.256471, -0.256471, -0.256471, -0.256471, -0.256471]
+
+# Crear un DataFrame
+data = {
+'Trapecio': trapecio,
+'Simpson': simpson,
+'Gauss-Legendre': gauss_legendre
+}
+
+df = pd.DataFrame(data)
+
+# Mostrar la tabla
+print(df)
+
 -----------------------------------------------------------------
------------------------------------------------------------------
------------------------------------------------------------------
------------------------------------------------------------------
------------------------------------------------------------------
------------------------------------------------------------------
------------------------------------------------------------------
------------------------------------------------------------------
------------------------------------------------------------------
+
+

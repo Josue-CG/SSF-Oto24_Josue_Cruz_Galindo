@@ -429,4 +429,64 @@ print(df)
 
 -----------------------------------------------------------------
 
+import numpy as np
+import pandas as pd
 
+# Definimos la función
+def f(x):
+    return np.exp(x) / x if x != 0 else 1 # Asignamos 1 cuando x=0 para evitar la división por cero
+
+# Método del trapecio
+def trapezoidal_rule(a, b, n):
+    h = (b - a) / n
+    integral = 0.5 * (f(a) + f(b))
+    for i in range(1, n):
+        integral += f(a + i * h)
+    integral *= h
+    return integral
+
+# Intervalos y resultados
+a = 0.01 # Desplazamos un poco el límite inferior
+b = 5
+results = []
+
+# Calculamos la integral para 1 a 30 iteraciones
+for n in range(1, 31):
+    integral_value = trapezoidal_rule(a, b, n)
+    results.append((n, integral_value))
+
+# Creamos un DataFrame para mostrar los resultados
+results_df = pd.DataFrame(results, columns=["Iteraciones", "Valor de la Integral"])
+print(results_df)
+
+-----------------------------------------------------------------
+
+import numpy as np
+import pandas as pd
+
+# Definimos la función
+def f(x):
+    return (1-np.exp(x)) / x if x != 0 else 1 # Asignamos 1 cuando x=0 para evitar la división por cero
+
+# Método del trapecio
+def trapezoidal_rule(a, b, n):
+    h = (b - a) / n
+    integral = 0.5 * (f(a) + f(b))
+    for i in range(1, n):
+        integral += f(a + i * h)
+    integral *= h
+    return integral
+
+# Intervalos y resultados
+a = 0.01 # Desplazamos un poco el límite inferior
+b = 5
+results = []
+
+# Calculamos la integral para 1 a 30 iteraciones
+for n in range(1, 31):
+    integral_value = trapezoidal_rule(a, b, n)
+    results.append((n, integral_value))
+
+# Creamos un DataFrame para mostrar los resultados
+results_df = pd.DataFrame(results, columns=["Iteraciones", "Valor de la Integral"])
+print(results_df)

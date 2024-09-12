@@ -1,0 +1,322 @@
+#Ejercicio A.2 - Estudiar una función para diferentes valores de parámetros.
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetros
+n = 10
+epsilon = 1/5
+
+# Crear los nodos en el intervalo [0, 1]
+x = np.linspace(0, 1, n + 1)
+# Calcular f(x) = sin(1/(x + epsilon))
+y = np.sin(1 / (x + epsilon))
+
+# Crear la gráfica
+plt.figure(figsize=(10, 5))
+plt.plot(x, y, marker='o', linestyle='-', color='b', label='f(x) = sin(1/(x + epsilon))')
+plt.title('Gráfica de f(x) = sin(1/(x + epsilon))')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.axhline(0, color='black',linewidth=0.5, ls='--')
+plt.axvline(0, color='black',linewidth=0.5, ls='--')
+plt.grid()
+plt.legend()
+plt.show()
+--------------------------------------------------------------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x, epsilon):
+    return np.sin(1 / (x + epsilon))
+
+# Parámetros
+n = 10
+epsilon = 1 / 5
+x_values = np.linspace(0, 1, 1000)  # Valores de x en el intervalo [0, 1]
+
+# Cálculo de la función para n nodos
+x_n = np.linspace(0, 1, n)
+y_n = f(x_n, epsilon)
+
+# Cálculo de la función para n + 10 nodos
+x_n_plus_10 = np.linspace(0, 1, n + 10)
+y_n_plus_10 = f(x_n_plus_10, epsilon)
+
+# Graficar
+plt.figure(figsize=(10, 6))
+plt.plot(x_values, f(x_values, epsilon), label='f(x) = sin(1/(x + epsilon))', color='blue')
+plt.scatter(x_n, y_n, color='red', label='n nodos (n=10)', zorder=5)
+plt.scatter(x_n_plus_10, y_n_plus_10, color='green', label='n + 10 nodos', zorder=5)
+plt.title('Gráfica de f(x) = sin(1/(x + epsilon))')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.legend()
+plt.grid()
+plt.ylim(-1.5, 1.5)  # Limitar el eje y para mejor visualización
+plt.show()
+--------------------------------------------------------------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x, epsilon):
+    return np.sin(1 / (x + epsilon)) #This line was not indented
+
+# Parámetros
+n = 10
+epsilon = 1 / 20
+x_values = np.linspace(0, 1, 1000) # Valores de x en el intervalo [0, 1]
+
+# Cálculo de la función para n nodos
+x_n = np.linspace(0, 1, n)
+y_n = f(x_n, epsilon)
+
+# Cálculo de la función para n + 10 nodos
+x_n_plus_10 = np.linspace(0, 1, n + 10)
+y_n_plus_10 = f(x_n_plus_10, epsilon)
+
+# Bucle while para encontrar el valor máximo
+max_n = max(y_n)
+max_n_plus_10 = max(y_n_plus_10)
+
+# Comparar los valores máximos
+while True:
+    if max_n > max_n_plus_10:
+        print(f"El valor máximo para n nodos (n=10) es mayor: {max_n}")
+        break
+    elif max_n < max_n_plus_10:
+        print(f"El valor máximo para n + 10 nodos es mayor: {max_n_plus_10}")
+        break
+    else:
+        print("Ambos valores máximos son iguales.")
+        break
+
+# Graficar
+plt.figure(figsize=(10, 6))
+plt.plot(x_values, f(x_values, epsilon), label='f(x) = sin(1/(x + epsilon))', color='blue')
+plt.scatter(x_n, y_n, color='red', label='n nodos (n=10)', zorder=5)
+plt.scatter(x_n_plus_10, y_n_plus_10, color='green', label='n + 10 nodos', zorder=5)
+plt.title('Gráfica de f(x) = sin(1/(x + epsilon))')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.legend()
+plt.grid()
+--------------------------------------------------------------------------------------
+#Ejercicio A.3 - Estudiar una función y su derivada.
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetro epsilon
+epsilon = 1/5
+
+# Definimos la función f(x)
+def f(x):
+    return np.sin(1 / (x + epsilon))
+
+# Derivada exacta f'(x)
+def f_prime_exact(x):
+    return -np.cos(1 / (x + epsilon)) / ((x + epsilon)**2)
+
+# Aproximación de la derivada usando diferencias finitas
+def f_prime_approx(x, h):
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+# Configuración de nodos
+n = 10  # Número de nodos
+x_values = np.linspace(0, 1, n)
+h = 1e-5  # Tamaño del paso para la aproximación
+
+# Cálculo de la derivada aproximada y exacta
+f_prime_approx_values = f_prime_approx(x_values, h)
+f_prime_exact_values = f_prime_exact(x_values)
+
+# Graficar
+plt.figure(figsize=(12, 6))
+plt.plot(x_values, f_prime_approx_values, label='Derivada Aproximada', linestyle='--', color='blue')
+plt.plot(x_values, f_prime_exact_values, label='Derivada Exacta', color='red')
+plt.title('Comparación de la Derivada Aproximada y Exacta de f(x)')
+plt.xlabel('x')
+plt.ylabel("f'(x)")
+plt.legend()
+plt.grid()
+plt.ylim(-5, 5)  # Ajustar límites para mejor visualización
+plt.show()
+--------------------------------------------------------------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetros
+epsilon = 1/20  # Puedes cambiar este valor
+n = 100  # Número de nodos
+x = np.linspace(0, 1, n)  # Nodos en el intervalo [0, 1]
+
+# Función f(x)
+def f(x):
+    return np.sin(1 / (x + epsilon))
+
+# Derivada exacta f'(x)
+def f_prime_exact(x):
+    return (-np.cos(1 / (x + epsilon))) / ((x + epsilon)**2)
+
+# Aproximación en diferencias finitas para la derivada
+def f_prime_approx(x, h):
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+# Paso para la aproximación
+h = 1e-5
+
+# Cálculo de la derivada aproximada
+f_prime_approx_values = f_prime_approx(x, h)
+f_prime_exact_values = f_prime_exact(x)
+
+# Crear matrices
+approx_matrix = f_prime_approx_values.reshape(-1, 1)
+exact_matrix = f_prime_exact_values.reshape(-1, 1)
+
+# Bucle while para encontrar el máximo
+max_approx = np.max(approx_matrix)
+max_exact = np.max(exact_matrix)
+
+# Comparar los máximos
+print(f'Máximo de la derivada aproximada: {max_approx}')
+print(f'Máximo de la derivada exacta: {max_exact}')
+
+# Graficar
+plt.figure(figsize=(12, 6))
+plt.plot(x, f_prime_approx_values, label='Derivada Aproximada', color='blue')
+plt.plot(x, f_prime_exact_values, label='Derivada Exacta', color='red', linestyle='dashed')
+plt.title('Comparación de la Derivada Aproximada y Exacta')
+plt.xlabel('x')
+plt.ylabel("f'(x)")
+plt.legend()
+plt.grid()
+plt.show()
+--------------------------------------------------------------------------------------
+#Ejercicio A.4 - Usar el método de Gauss-Legendre
+
+import numpy as np
+from scipy.special import roots_legendre
+
+def a(x):
+    return np.exp(4 * x)
+
+def gauss_legendre_integration(func, a, b, n):
+    # Obtener los puntos y pesos de Gauss-Legendre
+    x, w = roots_legendre(n)
+# Cambiar el intervalo de integración de [0, 1] a [-1, 1]
+    x_mapped = 0.5 * (b - a) * x + 0.5*(b + a)
+    w_mapped = 0.5 * (b - a) * w
+
+    # Calcular la integral
+    integral = np.sum(w_mapped * func(x_mapped))
+    return integral
+
+# Parámetros
+epsilon = 1 / 10000
+n = 2  # Puedes cambiar este valor para probar con diferentes n
+a_exact = (np.exp(4) - 1) / 4  # Valor exacto de la integral
+
+# Calcular la integral usando Gauss-Legendre
+a_n = gauss_legendre_integration(a, 0, 1, n)
+
+# Verificar la condición
+if abs(a_exact - a_n) <= epsilon:
+    print(f"El resultado de la integral con n={n} es {a_n}, que no satisface la condición.")
+else:
+    print(f"El resultado de la integral con n={n} es {a_n}, que satisface la condición.")
+--------------------------------------------------------------------------------------
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definimos la función
+def f(x):
+    return np.exp(-x**2)
+
+# Rango de x
+x = np.linspace(-10, 10, 400)
+y = f(x)
+
+# Graficamos la función
+plt.figure(figsize=(10, 6))
+plt.plot(x, y, label=r'$f(x) = e^{-x^2}$', color='blue')
+plt.title('Gráfica de $f(x) = e^{-x^2}$')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.axhline(0, color='black', lw=0.5, ls='--')
+plt.axvline(0, color='black', lw=0.5, ls='--')
+plt.grid()
+plt.legend()
+plt.show()
+--------------------------------------------------------------------------------------
+import numpy as np
+from scipy.special import roots_legendre
+
+def f(x):
+    return 2*(np.exp(-x**2))
+
+def gauss_legendre_integration(a, b, n):
+    # Obtener los puntos y pesos de Gauss-Legendre
+    points, weights = roots_legendre(n)
+# Cambiar el intervalo de integración de [a, b] a [-1, 1]
+    transformed_points = 0.5 * (b - a) * points + 0.5*(b + a)
+    transformed_weights = 0.5 * (b - a) * weights
+
+    # Calcular la integral
+    integral = np.sum(transformed_weights * f(transformed_points))
+    return integral
+
+def calculate_T(n, L):
+    # Definir el límite superior de la integral
+    a = 0
+    b = L
+
+    # Calcular la integral
+    integral_value = gauss_legendre_integration(a, b, n)
+
+    return integral_value
+
+# Ejemplo de uso
+n = 5  # Número de puntos de Gauss-Legendre
+L = 1  # Límite superior de la integral
+result = calculate_T(n, L)
+print(f"El valor de la integral de 0 a {L} es aproximadamente: {result}")
+--------------------------------------------------------------------------------------
+import numpy as np
+import pandas as pd
+from scipy.special import roots_legendre
+
+# Definimos la función f(x)
+def f(x):
+    return 2*(np.exp(-x**2))
+
+# Función para calcular T(n, L) usando el método de Gauss-Legendre
+def gauss_legendre_integration(n, L):
+    # Obtenemos los puntos y pesos de Gauss-Legendre
+    x, w = roots_legendre(L)
+
+    # Transformamos los puntos para el intervalo [0, T]
+    T = np.linspace(0, n, n)
+    integral_values = []
+
+    for t in T:
+        # Cambiamos el intervalo de integración
+        integral = 0.5*t*sum(w * f(0.5*t*(x + 1)))
+        integral_values.append(integral)
+
+    return integral_values #Fixed indentation
+
+# Valores de n y L
+n_values = [100, 200, 300, 400, 500]
+L_values = [2, 4, 6, 8, 10]
+
+# Crear un DataFrame para almacenar los resultados
+results = pd.DataFrame(index=n_values, columns=L_values)
+
+# Calcular T(n, L) y llenar el DataFrame
+for n in n_values:
+    for L in L_values:
+        results.loc[n, L] = gauss_legendre_integration(n, L)[-1]  # Tomamos el último valor para T
+
+# Mostrar la tabla de resultados
+print(results)

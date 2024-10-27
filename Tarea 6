@@ -1,0 +1,39 @@
+#Tarea 6
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+
+# Definimos las ecuaciones del sistema de Lorenz
+def lorenz_system(state, t, sigma, beta, rho):
+    x, y, z = state
+    dxdt = sigma * (y - x)
+    dydt = x * (rho - z) - y
+    dzdt = x * y - beta * z
+    return dxdt, dydt, dzdt
+
+# Parámetros del sistema de Lorenz
+sigma = 10.0
+beta = 8.0 / 3.0
+rho = 28.0
+
+# Estado inicial
+initial_state = [1.0, 1.0, 1.0]
+
+# Tiempo de integración
+t = np.linspace(0, 50, 10000)
+
+# Resolviendo las ecuaciones diferenciales
+state = odeint(lorenz_system, initial_state, t, args=(sigma, beta, rho))
+
+# Graficar el atractor de Lorenz
+x, y, z = state.T
+
+fig = plt.figure(figsize=(10, 7))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot(x, y, z, lw=0.5, color='blue')
+ax.set_title('Atractor de Lorenz')
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+plt.show()

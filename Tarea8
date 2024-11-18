@@ -1,0 +1,84 @@
+#Tarea 8 - a)
+
+import math
+
+def combinaciones(n, k):
+    return math.comb(n, k)
+
+def probabilidad_tres_mujeres(total_alumnos, total_mujeres, seleccion):
+    combinaciones_mujeres = combinaciones(total_mujeres, seleccion)
+    combinaciones_total = combinaciones(total_alumnos, seleccion)
+
+    return combinaciones_mujeres / combinaciones_total
+# Datos
+total_alumnos = 40
+total_mujeres = 9
+seleccion = 3
+
+# Cálculo de la probabilidad
+probabilidad = probabilidad_tres_mujeres(total_alumnos, total_mujeres, seleccion)
+print(f"La probabilidad de que los 3 seleccionados sean mujeres es: {probabilidad:.4f}")
+
+------------------------------------------------------------------------------------------------
+
+#Tarea 8 - b)
+
+import random
+
+# Función para generar calificaciones aleatorias
+def generar_calificaciones(num_alumnos, min_calificacion, max_calificacion):
+    return [random.uniform(min_calificacion, max_calificacion) for _ in range(num_alumnos)]
+
+# Función para calcular el promedio
+def calcular_promedio(calificaciones):
+    return sum(calificaciones) / len(calificaciones)
+
+# Función para calcular la varianza
+def calcular_varianza(calificaciones, promedio):
+    return sum((x - promedio) ** 2 for x in calificaciones) / len(calificaciones)
+# Parámetros
+num_alumnos = 100
+min_calificacion = 5
+max_calificacion = 10
+
+# Generar calificaciones
+calificaciones = generar_calificaciones(num_alumnos, min_calificacion, max_calificacion)
+
+# Calcular promedio y varianza
+promedio = calcular_promedio(calificaciones)
+varianza = calcular_varianza(calificaciones, promedio)
+
+# Mostrar resultados
+print(f"Promedio de calificaciones: {promedio:.2f}")
+print(f"Varianza de calificaciones: {varianza:.2f}")
+
+------------------------------------------------------------------------------------------------
+
+#Tarea 8 - c)
+
+import math
+from scipy.special import comb
+import numpy as np
+
+# Función para calcular la probabilidad de seleccionar 3 mujeres
+def calcular_probabilidad(mujeres, total, seleccionados):
+    probabilidad = (comb(mujeres, seleccionados) / comb(total, seleccionados))
+    return probabilidad
+
+# Datos
+mujeres = 9
+total = 40
+seleccionados = 3
+# Calcular la probabilidad
+probabilidad = calcular_probabilidad(mujeres, total, seleccionados)
+print(f"Probabilidad de que los 3 seleccionados sean mujeres: {probabilidad:.4f}")
+
+# Supongamos que tenemos las calificaciones de los 3 alumnos seleccionados
+calificaciones = [8.5, 9.0, 7.5]  # Ejemplo de calificaciones
+
+# Calcular promedio y desviación estándar
+promedio = np.mean(calificaciones)
+desviacion_estandar = np.std(calificaciones)
+# Mostrar resultados
+print(f"Promedio de calificaciones: {promedio:.2f}")
+print(f"Desviación estándar de calificaciones: {desviacion_estandar:.2f}")

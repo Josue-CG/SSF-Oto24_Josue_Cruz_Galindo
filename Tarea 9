@@ -1,0 +1,66 @@
+#Tarea 9
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+# Simulación de datos (reemplaza esto con tus datos reales)
+np.random.seed(0)
+n = 100
+calidad_vida = np.random.normal(50, 10, n)
+activacion_conductual = np.random.normal(50, 10, n)
+
+# Crear un DataFrame
+data = pd.DataFrame({
+    'Calidad_Vida': calidad_vida,
+    'Activacion_Conductual': activacion_conductual
+})
+
+# 1. Matriz de dispersión y regresión lineal
+sns.pairplot(data)
+plt.suptitle('Matriz de Dispersión', y=1.02)
+plt.show()
+
+# Regresión lineal simple
+model = ols('Activacion_Conductual ~ Calidad_Vida', data=data).fit()
+sns.regplot(x='Calidad_Vida', y='Activacion_Conductual', data=data)
+plt.title('Regresión Lineal Simple')
+plt.show()
+
+# 2. Diagrama de caja
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='Calidad_Vida', y='Activacion_Conductual', data=data)
+plt.title('Diagrama de Caja')
+plt.show()
+
+# 3. Análisis de varianza (ANOVA)
+anova_result = sm.stats.anova_lm(model, typ=2)
+print("Resultados del ANOVA:")
+print(anova_result)
+
+# Prueba de correlación
+correlation, p_value = stats.pearsonr(data['Calidad_Vida'], data['Activacion_Conductual'])
+print(f"Correlación: {correlation}, Valor p: {p_value}")
+
+#--------------------------------------------------------------------------------------------
+
+# - Se importan bibliotecas esenciales para la manipulación de datos (pandas), generación de 
+#   números aleatorios (numpy), visualización (matplotlib y seaborn), y análisis estadístico
+#   (scipy y statsmodels).
+
+# - Se establece una semilla para la generación de números aleatorios, lo que asegura que 
+#   los resultados sean reproducibles.
+
+# - Se generan 100 datos aleatorios para calidad_vida y activacion_conductual, ambos 
+#   distribuidos normalmente con una media de 50 y una desviación estándar de 10.
+
+# - Se crea un DataFrame de pandas que contiene las dos variables generadas.
+
+# - Se utiliza seaborn para crear una matriz de dispersión que muestra la relación entre las 
+#   variables.
+
+# - Se añade un título y se muestra la gráfica.
